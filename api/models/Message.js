@@ -18,7 +18,7 @@ module.exports = {
     },
     group: {
       model: "group",
-      required: true,
+      // required: true,
     },
   },
 };

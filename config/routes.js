@@ -10,6 +10,12 @@
 
 module.exports.routes = {
 
+  'GET /groups': 'GroupController.getGroups',
+  'GET /groups/:id': ['GroupController.getGroup','GroupController.getMessages'],
+  'POST /groups': 'GroupController.createGroup',
+  'POST /groups/:id': 'MessageController.postMessage',
+  'DELETE /group/:id': 'GroupController.deleteGroup',
+
   /***************************************************************************
   *                                                                          *
   * Make the view located at `views/homepage.ejs` your home page.            *
