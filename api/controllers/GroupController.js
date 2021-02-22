@@ -31,7 +31,14 @@ module.exports = {
   },
 
   deleteGroup: async function(req, res) {
-    const group = await Group.delete({id: req.params.id});
+    const {id} = req.params;
+    let messages = await Group.find({id: id}).populate('messages');
+    messages = messages.
+      map(message => message.messages).
+      flat().
+      map(message => message.id);
+    await Message.destroy({id: messages});
+    const group = await Group.destroy({id: id});
     res.send(group);
   },
 };
