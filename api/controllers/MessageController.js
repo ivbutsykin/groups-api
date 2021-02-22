@@ -10,6 +10,7 @@ module.exports = {
     const {body, user, group} = req.body;
     const message = await Message.create(
       {body: body, user: user, group: group}).fetch();
+    message.user = await User.findOne({id: message.user});
     res.send(message);
   },
 };

@@ -18,10 +18,13 @@ module.exports = {
 
   getMessages: async function(req, res) {
     const {id, skip, limit} = req.params;
-    const messages = await Group.findOne({id: id}).
-      populate('messages').
-      skip(skip).
-      limit(limit);
+    let messages = await Group.find({id: id}).
+      populate('messages', {skip: skip, limit: limit});
+    messages = messages[0].messages;
+    for (const message of messages) {
+      const user = await User.findOne({id: message.user});
+      message.user = user;
+    }
     res.send(messages);
   },
 
