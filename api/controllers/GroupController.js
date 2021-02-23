@@ -6,20 +6,21 @@
  */
 
 module.exports = {
-  getGroups: async function(req, res) {
+  getGroups: async (req, res) => {
     const groups = await Group.find();
     res.send(groups);
   },
 
-  getGroup: async function(req, res) {
-    const group = await Group.findOne({id: req.params.id});
+  getGroup: async (req, res) => {
+    const id = req.params;
+    const group = await Group.findOne({id: id + ''});
     res.send(group);
   },
 
-  getMessages: async function(req, res) {
-    const {id, skip, limit} = req.params;
-    let messages = await Group.find({id: id}).
-      populate('messages', {skip: skip, limit: limit});
+  getMessages: async (req, res) => {
+    const {id, skip, limit} = req.allParams();
+    let messages = await Group.find({id}).
+      populate('messages', {skip, limit});
     messages = messages[0].messages;
     for (const message of messages) {
       const user = await User.findOne({id: message.user});
@@ -28,20 +29,21 @@ module.exports = {
     res.send(messages);
   },
 
-  createGroup: async function(req, res) {
-    const group = await Group.create({name: req.body.name}).fetch();
+  createGroup: async (req, res) => {
+    const {name} = req.body;
+    const group = await Group.create({name}).fetch();
     res.send(group);
   },
 
-  deleteGroup: async function(req, res) {
+  deleteGroup: async (req, res) => {
     const {id} = req.params;
-    let messages = await Group.find({id: id}).populate('messages');
+    let messages = await Group.find({id}).populate('messages');
     messages = messages.
       map(message => message.messages).
       flat().
       map(message => message.id);
     await Message.destroy({id: messages});
-    const group = await Group.destroy({id: id});
+    const group = await Group.destroy({id});
     res.send(group);
   },
 };

@@ -9,7 +9,7 @@ module.exports = {
   postMessage: async function(req, res) {
     const {body, user, group} = req.body;
     const message = await Message.create(
-      {body: body, user: user, group: group}).fetch();
+      {body, user, group}).fetch();
     message.user = await User.findOne({id: message.user});
     res.send(message);
   },
