@@ -12,7 +12,18 @@ module.exports = {
       const message = await Message.create(
         {body, user, group}).fetch();
       message.user = await User.findOne({id: message.user});
+      // const message = await Message.create( {body, user, group}).fetch().populate('user')
       res.send(message);
+    } catch (e) {
+      res.status(400).send(e);
+    }
+  },
+
+  getMessages: async (req, res) => {
+    try {
+      const {id, skip, limit} = req.allParams();
+      let messages = await Message.find({group: `${id}`}).skip(skip).limit(limit).populate('user');
+      res.send(messages);
     } catch (e) {
       res.status(400).send(e);
     }

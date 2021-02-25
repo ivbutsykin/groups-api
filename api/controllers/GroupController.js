@@ -18,24 +18,8 @@ module.exports = {
   getGroup: async (req, res) => {
     try {
       const id = req.params;
-      const group = await Group.findOne({id: id + ''});
+      const group = await Group.findOne({id: `${id}`});
       res.send(group);
-    } catch (e) {
-      res.status(400).send(e);
-    }
-  },
-
-  getMessages: async (req, res) => {
-    try {
-      const {id, skip, limit} = req.allParams();
-      let messages = await Group.find({id}).
-        populate('messages', {skip, limit});
-      messages = messages[0].messages;
-      for (const message of messages) {
-        const user = await User.findOne({id: message.user});
-        message.user = user;
-      }
-      res.send(messages);
     } catch (e) {
       res.status(400).send(e);
     }
@@ -54,12 +38,7 @@ module.exports = {
   deleteGroup: async (req, res) => {
     try {
       const {id} = req.params;
-      let messages = await Group.find({id}).populate('messages');
-      messages = messages.
-        map(message => message.messages).
-        flat().
-        map(message => message.id);
-      await Message.destroy({id: messages});
+      await Message.destroy({group: `${id}`});
       const group = await Group.destroy({id});
       res.send(group);
     } catch (e) {

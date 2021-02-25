@@ -12,7 +12,7 @@ module.exports.routes = {
 
   'GET /groups': 'GroupController.getGroups',
   'GET /groups/:id': 'GroupController.getGroup',
-  'GET /groups/:id/messages': 'GroupController.getMessages',
+  'GET /groups/:id/messages': 'MessageController.getMessages',
   'POST /groups': 'GroupController.createGroup',
   'POST /messages': 'MessageController.postMessage',
   'DELETE /groups/:id': 'GroupController.deleteGroup',
