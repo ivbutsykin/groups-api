@@ -16,4 +16,7 @@ module.exports.policies = {
    *                                                                          *
    ***************************************************************************/
   // '*': true,
+  GroupController: {
+    createGroup: 'isLoggedIn',
+  },
 };

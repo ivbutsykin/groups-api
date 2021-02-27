@@ -8,13 +8,18 @@
 module.exports = {
   attributes: {
     name: {
-      type: "string",
+      type: 'string',
       required: true,
     },
 
     messages: {
-      collection: "message",
-      via: "group",
+      collection: 'message',
+      via: 'group',
+    },
+
+    createdBy: {
+      model: 'user',
+      required: true,
     },
   },
 };

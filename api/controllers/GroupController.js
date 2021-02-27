@@ -17,7 +17,8 @@ module.exports = {
 
   getGroup: async (req, res) => {
     try {
-      const group = await Group.findOne({id: req.params.id});
+      const group = await Group.findOne({id: req.params.id}).
+        populate('createdBy');
       if (!group) {
         res.status(404).send();
       }
@@ -30,7 +31,10 @@ module.exports = {
   createGroup: async (req, res) => {
     try {
       const {name} = req.body;
-      const group = await Group.create({name}).fetch();
+      const group = await Group.create({
+        name,
+        createdBy: req.user.id,
+      }).fetch();
       res.send(group);
     } catch (e) {
       res.status(400).send(e);

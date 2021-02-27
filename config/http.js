@@ -9,6 +9,8 @@
  * https://sailsjs.com/config/http
  */
 
+const passport = require('passport');
+
 module.exports.http = {
 
   /****************************************************************************
@@ -22,6 +24,9 @@ module.exports.http = {
 
   middleware: {
 
+    passportInit    : passport.initialize(),
+    passportSession : passport.session(),
+
     /***************************************************************************
     *                                                                          *
     * The order in which middleware should be run for HTTP requests.           *
@@ -29,16 +34,17 @@ module.exports.http = {
     *                                                                          *
     ***************************************************************************/
 
-    // order: [
-    //   'cookieParser',
-    //   'session',
-    //   'bodyParser',
-    //   'compress',
-    //   'poweredBy',
-    //   'router',
-    //   'www',
-    //   'favicon',
-    // ],
+    order: [
+      'cookieParser',
+      'session',
+      'passportInit',
+      'passportSession',
+      'bodyParser',
+      'compress',
+      'poweredBy',
+      'router',
+      'www',
+    ],
 
 
     /***************************************************************************
