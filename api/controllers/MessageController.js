@@ -22,7 +22,14 @@ module.exports = {
   getMessages: async (req, res) => {
     try {
       const {id, skip, limit} = req.allParams();
-      let messages = await Message.find({group: `${id}`}).skip(skip).limit(limit).populate('user');
+      const group = await Group.findOne({id: req.params.id});
+      if (!group) {
+        res.status(404).send();
+      }
+      let messages = await Message.find({group: `${id}`}).
+        skip(skip).
+        limit(limit).
+        populate('user');
       res.send(messages);
     } catch (e) {
       res.status(400).send(e);

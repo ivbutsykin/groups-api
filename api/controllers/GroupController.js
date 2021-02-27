@@ -17,8 +17,10 @@ module.exports = {
 
   getGroup: async (req, res) => {
     try {
-      const id = req.params;
-      const group = await Group.findOne({id: `${id}`});
+      const group = await Group.findOne({id: req.params.id});
+      if (!group) {
+        res.status(404).send();
+      }
       res.send(group);
     } catch (e) {
       res.status(400).send(e);
@@ -38,7 +40,7 @@ module.exports = {
   deleteGroup: async (req, res) => {
     try {
       const {id} = req.params;
-      await Message.destroy({group: `${id}`});
+      await Message.destroy({group: req.params.id});
       const group = await Group.destroy({id});
       res.send(group);
     } catch (e) {
