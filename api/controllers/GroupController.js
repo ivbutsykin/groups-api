@@ -44,9 +44,18 @@ module.exports = {
   deleteGroup: async (req, res) => {
     try {
       const {id} = req.params;
+      const user = req.user;
+      const group = await Group.findOne({id});
+      const isOwner = group.createdBy === user.id;
+
+      if (!isOwner) {
+        res.status(403).send();
+        return;
+      }
+
       await Message.destroy({group: req.params.id});
-      const group = await Group.destroy({id});
-      res.send(group);
+      await Group.destroy({id});
+      res.send({id});
     } catch (e) {
       res.status(400).send(e);
     }

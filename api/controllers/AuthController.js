@@ -5,24 +5,15 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
   login: function(req, res) {
-    passport.authenticate('local', authenticate)(req, res);
-
-    function authenticate(err, user, info) {
-      if ((err) || (!user)) {
-        return res.status(401).send(info);
-      }
-
-      req.logIn(user, function(err) {
-        if (err) {
-          res.status(401).send(err);
-        }
-        return res.send(user);
-      });
-    }
+    const user = req.user.toJSON();
+    const token = jwt.sign(user, sails.config.passport.jwtSecret, {
+      expiresIn: '1d',
+    });
+    return res.send(token);
   },
 
   logout: function(req, res) {

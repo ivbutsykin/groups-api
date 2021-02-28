@@ -25,7 +25,6 @@ module.exports.http = {
   middleware: {
 
     passportInit    : passport.initialize(),
-    passportSession : passport.session(),
 
     /***************************************************************************
     *                                                                          *
@@ -36,9 +35,7 @@ module.exports.http = {
 
     order: [
       'cookieParser',
-      'session',
       'passportInit',
-      'passportSession',
       'bodyParser',
       'compress',
       'poweredBy',

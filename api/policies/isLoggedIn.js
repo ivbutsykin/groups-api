@@ -1,7 +1,3 @@
-module.exports = async function (req, res, next) {
-  if (req.user) {
-    return next();
-  }
+const passport = require('passport');
 
-  return res.forbidden();
-};
+module.exports = passport.authenticate('jwt', { session: false });

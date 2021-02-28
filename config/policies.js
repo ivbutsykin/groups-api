@@ -16,7 +16,16 @@ module.exports.policies = {
    *                                                                          *
    ***************************************************************************/
   // '*': true,
+  AuthController: {
+    login: 'signIn',
+  },
+
   GroupController: {
     createGroup: 'isLoggedIn',
+    deleteGroup: 'isLoggedIn',
   },
+
+  MessageController: {
+    postMessage: 'isLoggedIn'
+  }
 };
