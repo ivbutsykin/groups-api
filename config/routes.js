@@ -16,7 +16,7 @@ module.exports.routes = {
   'POST /groups': 'GroupController.createGroup',
   'POST /messages': 'MessageController.postMessage',
   'DELETE /groups/:id': 'GroupController.deleteGroup',
-  'POST /users': 'UserController.createGroup',
+  'POST /users': 'UserController.createUser',
 
   /***************************************************************************
   *                                                                          *

@@ -22,7 +22,7 @@ module.exports = {
 
   getMessages: async (req, res) => {
     try {
-      const {id, skip, limit} = req.allParams();
+      const {id, skip, limit, sort} = req.allParams();
       const group = await Group.findOne({id: req.params.id});
       if (!group) {
         res.status(404).send();
@@ -30,6 +30,7 @@ module.exports = {
       let messages = await Message.find({group: `${id}`}).
         skip(skip).
         limit(limit).
+        sort(sort).
         populate('user');
       res.send(messages);
     } catch (e) {
